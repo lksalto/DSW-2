@@ -11,6 +11,7 @@
     <script>
         let cartCount = 0;
         let discosData = [];
+        let cartItems = [];
 
         // Load discs from the JSON file
         function loadDiscos() {
@@ -51,7 +52,7 @@
                     <img src="${disco.imagem}" alt="${disco.nome}" class="w-full h-40 object-cover rounded-t-lg" onmouseover="showTooltip(event)" onmouseout="hideTooltip(event)">
                     <h3 class="mt-4 text-lg font-bold text-gray-800 dark:text-white">${disco.nome}</h3>
                     <p class="text-green-600 dark:text-green-400 font-semibold mt-2">R$ ${preco.toFixed(2)}</p>
-                    <button onclick="addToCart()" class="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
+                    <button onclick="addToCart(${disco.id}, '${disco.nome}', '${disco.imagem}', ${preco})" class="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
                         Adicionar ao Carrinho
                     </button>
                 `;
@@ -99,6 +100,16 @@
             }
         }
 
+        // Toggle the visibility of the cart menu
+        function toggleCartMenu() {
+            var x = document.getElementById("cart-menu");
+            if (x.style.display === "none" || x.style.display === "") {
+                x.style.display = "flex";
+            } else {
+                x.style.display = "none";
+            }
+        }
+
         // Toggle dark mode
         function toggleDarkMode() {
             const htmlElement = document.documentElement;
@@ -110,9 +121,38 @@
         }
 
         // Add an item to the shopping cart
-        function addToCart() {
+        function addToCart(id, nome, imagem, preco) {
             cartCount++;
             document.getElementById("cart-count").textContent = cartCount;
+
+            // Add the item to the cartItems array
+            cartItems.push({ id, nome, imagem, preco });
+            updateCartMenu();
+        }
+
+        // Update the cart menu with items
+        function updateCartMenu() {
+            const cartMenu = document.getElementById("cart-menu");
+            cartMenu.innerHTML = ''; // Clear existing cart items
+
+            if (cartItems.length === 0) {
+                cartMenu.innerHTML = '<p class="p-4 text-center">Carrinho vazio</p>';
+            } else {
+                cartItems.forEach(item => {
+                    const cartItemElement = document.createElement('div');
+                    cartItemElement.classList.add('flex', 'p-4', 'border-b', 'border-gray-300', 'dark:border-gray-700');
+
+                    cartItemElement.innerHTML = `
+                        <img src="${item.imagem}" alt="${item.nome}" class="w-16 h-16 object-cover mr-4 rounded">
+                        <div>
+                            <h4 class="text-gray-800 dark:text-white font-bold">${item.nome}</h4>
+                            <p class="text-gray-600 dark:text-gray-400">R$ ${item.preco.toFixed(2)}</p>
+                        </div>
+                    `;
+
+                    cartMenu.appendChild(cartItemElement);
+                });
+            }
         }
 
         // Show tooltip on hover
@@ -159,7 +199,8 @@
             </div>
         </div>
         <div class="flex flex-row gap-x-2">
-            <div class="flex items-center cursor-pointer select-none text-black hover:text-yellow-500 dark:text-white">
+            <div class="flex items-center cursor-pointer select-none text-black hover:text-yellow-500 dark:text-white"
+                 onclick="toggleCartMenu()">
                 <i class="material-icons">shopping_cart</i>
                 <span id="cart-count" class="ml-2 text-sm text-red-500">0</span>
             </div>
@@ -191,6 +232,12 @@
         <div id="produtos-container" class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         </div>
     </div>
+
+    <!-- Cart Menu -->
+    <div id="cart-menu" class="fixed top-14 right-0 w-64 bg-white dark:bg-gray-800 shadow-lg z-20 hidden flex-col">
+        <!-- Cart items will be dynamically added here -->
+    </div>
 </body>
 
 </html>
+
