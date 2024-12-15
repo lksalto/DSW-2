@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html class="">
+
+<head>
+    <meta charset='utf-8'>
+    <title>Laboratório</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="tailwindOutput.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
+
+    <script>
+        function toggleMenu() {
+            var x = document.getElementById("menu");
+            console.log(x.style.display);
+            if (x.style.display === "none" || x.style.display === "") {
+                x.style.display = "flex";
+            } else {
+                x.style.display = "none";
+            }
+        }
+
+        function toggleDarkMode() {
+            const htmlElement = document.documentElement;
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+            } else {
+                htmlElement.classList.add('dark');
+            }
+        }
+    </script>
+</head>
+
+<body class="w-full flex flex-col bg-white dark:bg-black dark:text-white">
+    <div class="fixed top-0 left-0 w-full h-14 p-4 flex flex-row justify-between
+    bg-gray-200 border-b border-b-gray-300 dark:bg-gray-900
+    dark:border-b-gray-800">
+        <div class="flex flex-row items-center gap-x-4 ">
+            <div onclick="toggleMenu()" class="flex items-center justify-center
+            select-none cursor-pointer text-gray-500 hover:text-orange-800
+            active:text-red-500 dark:hover:text-orange-300
+            dark:active:text-red-500
+            lg:hidden">
+                <i class="material-icons">menu</i>
+            </div>
+
+            <div id="menu" class="fixed top-14 left-0 w-full z-10 hidden
+            flex-col p-8 gap-y-2 text-lg font-bold bg-gray-200
+            dark:bg-gray-900
+            lg:static lg:top-0 lg:flex lg:flex-row lg:p-0 lg:text-sm">
+                <div class="p-2 cursor-pointer select-none hover:text-orange-800
+                dark:hover:text-orange-300">Business</div>
+                <div class="p-2 cursor-pointer select-none hover:text-orange-800
+                dark:hover:text-orange-300">Science</div>
+                <div class="p-2 cursor-pointer select-none hover:text-orange-800
+                dark:hover:text-orange-300">Culture</div>
+                <div class="p-2 cursor-pointer select-none hover:text-orange-800
+                dark:hover:text-orange-300">Sports</div>
+                <div class="p-2 cursor-pointer select-none hover:text-orange-800
+                dark:hover:text-orange-300">Entertainment</div>
+                <div class="p-2 cursor-pointer select-none hover:text-orange-800
+                dark:hover:text-orange-300">Tech</div>
+            </div>
+        </div>
+
+</body>
+
+</html>
