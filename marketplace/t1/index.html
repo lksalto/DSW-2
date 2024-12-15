@@ -33,7 +33,7 @@
 
 <body class="w-full flex flex-col bg-white dark:bg-black dark:text-white">
     <div class="fixed top-0 left-0 w-full h-14 p-4 flex flex-row justify-between
-    bg-gray-200 border-b border-b-gray-300 dark:bg-gray-900
+    bg-red-800 border-b border-b-gray-300 dark:bg-gray-900
     dark:border-b-gray-800">
         <div class="flex flex-row items-center gap-x-4 ">
             <div onclick="toggleMenu()" class="flex items-center justify-center
@@ -44,25 +44,30 @@
                 <i class="material-icons">menu</i>
             </div>
 
+            <div class="font-bold text-2xl cursor-pointer
+            select-none">Toca Do Disco</div>
             <div id="menu" class="fixed top-14 left-0 w-full z-10 hidden
             flex-col p-8 gap-y-2 text-lg font-bold bg-gray-200
             dark:bg-gray-900
             lg:static lg:top-0 lg:flex lg:flex-row lg:p-0 lg:text-sm">
                 <div class="p-2 cursor-pointer select-none hover:text-orange-800
-                dark:hover:text-orange-300">Business</div>
+                dark:hover:text-orange-300">Login</div>
                 <div class="p-2 cursor-pointer select-none hover:text-orange-800
-                dark:hover:text-orange-300">Science</div>
-                <div class="p-2 cursor-pointer select-none hover:text-orange-800
-                dark:hover:text-orange-300">Culture</div>
-                <div class="p-2 cursor-pointer select-none hover:text-orange-800
-                dark:hover:text-orange-300">Sports</div>
-                <div class="p-2 cursor-pointer select-none hover:text-orange-800
-                dark:hover:text-orange-300">Entertainment</div>
-                <div class="p-2 cursor-pointer select-none hover:text-orange-800
-                dark:hover:text-orange-300">Tech</div>
+                dark:hover:text-orange-300">Cadastro</div>
             </div>
         </div>
-
+        <div class="flex flex-row gap-x-2">
+            <div onclick="toggleDarkMode()" class="select-none cursor-pointer
+            text-black hover:text-yellow-500 dark:text-white">
+                <div class="text-xs dark:hidden">
+                    <i class="material-icons">nightlight</i>
+                </div>
+                <div class="text-xs hidden dark:block">
+                    <i class="material-icons">lightbulb</i>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
