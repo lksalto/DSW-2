@@ -9,58 +9,73 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <script>
-        let cartCount = 0;
+        let discosData = []; // Store the fetched discos data globally
 
         function loadDiscos() {
             fetch('discos.json')
                 .then(response => response.json())
                 .then(discos => {
-                    const produtosContainer = document.getElementById('produtos-container');
-                    discos.forEach(disco => {
-                        const preco = parseFloat(disco.preco);
-
-                        const produtoElement = document.createElement('div');
-                        produtoElement.classList.add('bg-gray-100', 'dark:bg-gray-800', 'rounded-lg', 'shadow-lg', 'flex', 'flex-col', 'items-center', 'p-4');
-                        
-                        produtoElement.innerHTML = `
-                            <img src="${disco.imagem}" alt="${disco.nome}" class="w-full h-40 object-cover rounded-t-lg">
-                            <h3 class="mt-4 text-lg font-bold text-gray-800 dark:text-white">${disco.nome}</h3>
-                            <p class="text-green-600 dark:text-green-400 font-semibold mt-2">R$ ${preco.toFixed(2)}</p>
-                            <button onclick="addToCart()" class="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
-                                Adicionar ao Carrinho
-                            </button>
-                        `;
-
-                        produtosContainer.appendChild(produtoElement);
-                    });
-                })
+                    discosData = discos; // Save the data globally
+                    populateGenres(discosData); // Populate the genre dropdown
+                    displayDiscos(discosData); // Display all discos initially
+                });
         }
 
-        function toggleMenu() {
-            var x = document.getElementById("menu");
-            console.log(x.style.display);
-            if (x.style.display === "none" || x.style.display === "") {
-                x.style.display = "flex";
-            } else {
-                x.style.display = "none";
-            }
+        function populateGenres(discos) {
+            const genreFilter = document.getElementById('genreFilter');
+            const genres = new Set();
+
+            // Collect all unique genres from the data
+            discos.forEach(disco => genres.add(disco.genre));
+
+            // Add "All" option
+            genreFilter.innerHTML = '<option value="all">All</option>';
+
+            // Populate the dropdown with genres
+            genres.forEach(genre => {
+                const option = document.createElement('option');
+                option.value = genre;
+                option.textContent = genre.charAt(0).toUpperCase() + genre.slice(1); // Capitalize the first letter
+                genreFilter.appendChild(option);
+            });
         }
 
-        function toggleDarkMode() {
-            const htmlElement = document.documentElement;
-            if (htmlElement.classList.contains('dark')) {
-                htmlElement.classList.remove('dark');
-            } else {
-                htmlElement.classList.add('dark');
-            }
+        function displayDiscos(discos) {
+            const produtosContainer = document.getElementById('produtos-container');
+            produtosContainer.innerHTML = ''; // Clear the container
+
+            discos.forEach(disco => {
+                const preco = parseFloat(disco.preco);
+
+                const produtoElement = document.createElement('div');
+                produtoElement.classList.add('bg-gray-100', 'dark:bg-gray-800', 'rounded-lg', 'shadow-lg', 'flex', 'flex-col', 'items-center', 'p-4');
+                
+                produtoElement.innerHTML = `
+                    <img src="${disco.imagem}" alt="${disco.nome}" class="w-full h-40 object-cover rounded-t-lg">
+                    <h3 class="mt-4 text-lg font-bold text-gray-800 dark:text-white">${disco.nome}</h3>
+                    <p class="text-green-600 dark:text-green-400 font-semibold mt-2">R$ ${preco.toFixed(2)}</p>
+                    <button onclick="addToCart()" class="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
+                        Adicionar ao Carrinho
+                    </button>
+                `;
+
+                produtosContainer.appendChild(produtoElement);
+            });
         }
 
-        function addToCart() {
-            cartCount++;
-            document.getElementById("cart-count").textContent = cartCount;
+        function filterDiscos() {
+            const genreFilter = document.getElementById('genreFilter').value;
+            const filteredDiscos = genreFilter === 'all'
+                ? discosData // Show all discos if "all" is selected
+                : discosData.filter(disco => disco.genre === genreFilter);
+            displayDiscos(filteredDiscos); // Update the display
         }
 
-        window.onload = loadDiscos;
+        window.onload = () => {
+            loadDiscos();
+            document.getElementById('genreFilter').addEventListener('change', filterDiscos);
+        };
+
     </script>
 </head>
 
@@ -112,7 +127,12 @@
              alt="Descrição da Imagem" 
              class="w-full h-64 object-cover">
     </div>
-
+    <div class="w-full p-4 flex justify-center items-center gap-4 bg-indigo-300 dark:bg-gray-800">
+        <label for="genreFilter" class="text-indigo-800 dark:text-yellow-300">Filter by Genre:</label>
+        <select id="genreFilter" class="rounded p-2 bg-white dark:bg-gray-700 text-indigo-900 dark:text-yellow-200">
+            <!-- Options will be added programmatically -->
+        </select>
+    </div>
     <div class="flex-col p-8">
         <div id="produtos-container" class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         </div>
