@@ -9,40 +9,24 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <script>
-        let discosData = []; // Store the fetched discos data globally
+        let cartCount = 0;
+        let discosData = [];
 
+        // Load discs from the JSON file
         function loadDiscos() {
             fetch('discos.json')
                 .then(response => response.json())
                 .then(discos => {
-                    discosData = discos; // Save the data globally
-                    populateGenres(discosData); // Populate the genre dropdown
-                    displayDiscos(discosData); // Display all discos initially
+                    discosData = discos; // Save data for filtering
+                    populateGeneros(discos); // Populate genres dropdown
+                    displayDiscos(discos); // Show all discos initially
                 });
         }
 
-        function populateGenres(discos) {
-            const genreFilter = document.getElementById('genreFilter');
-            const genres = new Set();
-
-            // Collect all unique genres from the data
-            discos.forEach(disco => genres.add(disco.genre));
-
-            // Add "All" option
-            genreFilter.innerHTML = '<option value="all">All</option>';
-
-            // Populate the dropdown with genres
-            genres.forEach(genre => {
-                const option = document.createElement('option');
-                option.value = genre;
-                option.textContent = genre.charAt(0).toUpperCase() + genre.slice(1); // Capitalize the first letter
-                genreFilter.appendChild(option);
-            });
-        }
-
+        // Display discos in the container
         function displayDiscos(discos) {
             const produtosContainer = document.getElementById('produtos-container');
-            produtosContainer.innerHTML = ''; // Clear the container
+            produtosContainer.innerHTML = ''; // Clear existing products
 
             discos.forEach(disco => {
                 const preco = parseFloat(disco.preco);
@@ -63,45 +47,89 @@
             });
         }
 
-        function filterDiscos() {
-            const genreFilter = document.getElementById('genreFilter').value;
-            const filteredDiscos = genreFilter === 'all'
-                ? discosData // Show all discos if "all" is selected
-                : discosData.filter(disco => disco.genre === genreFilter);
-            displayDiscos(filteredDiscos); // Update the display
+        // Populate genres dropdown
+        function populateGeneros(discos) {
+            const generoFiltro = document.getElementById('generoFiltro');
+            const generos = new Set();
+
+            discos.forEach(disco => generos.add(disco.genero));
+
+            generoFiltro.innerHTML = '<option value="all">Todos</option>';
+
+            generos.forEach(genero => {
+                const option = document.createElement('option');
+                option.value = genero;
+                option.textContent = genero.charAt(0).toUpperCase() + genero.slice(1);
+                generoFiltro.appendChild(option);
+            });
         }
 
-        window.onload = () => {
-            loadDiscos();
-            document.getElementById('genreFilter').addEventListener('change', filterDiscos);
-        };
+        // Filter discs by genre
+        function filterByGenero(genero) {
+            const filteredDiscos = genero === 'all' ? discosData : discosData.filter(disco => disco.genero === genero);
+            displayDiscos(filteredDiscos);
+        }
 
+        // Trigger filtering when the genre dropdown changes
+        function filterDiscos() {
+            const generoFiltro = document.getElementById('generoFiltro').value;
+            filterByGenero(generoFiltro);
+        }
+
+        // Toggle the visibility of the menu
+        function toggleMenu() {
+            var x = document.getElementById("menu");
+            if (x.style.display === "none" || x.style.display === "") {
+                x.style.display = "flex";
+            } else {
+                x.style.display = "none";
+            }
+        }
+
+        // Toggle dark mode
+        function toggleDarkMode() {
+            const htmlElement = document.documentElement;
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+            } else {
+                htmlElement.classList.add('dark');
+            }
+        }
+
+        // Add an item to the shopping cart
+        function addToCart() {
+            cartCount++;
+            document.getElementById("cart-count").textContent = cartCount;
+        }
+
+        // Initialize the page by loading discs
+        window.onload = loadDiscos;
     </script>
 </head>
 
-<body class="w-full flex flex-col font-mono bg-indigo-100 dark:bg-gray-900 dark:text-white">
+<body class="w-full flex flex-col font-mono bg-white dark:bg-black dark:text-white">
     <div class="fixed top-0 left-0 w-full h-14 p-4 flex flex-row justify-between
-    bg-indigo-200 border-b border-b-gray-300 dark:bg-gray-900
+    bg-red-800 border-b border-b-gray-300 dark:bg-gray-900
     dark:border-b-gray-800 z-10">
         <div class="flex flex-row items-center gap-x-4 ">
             <div onclick="toggleMenu()" class="flex items-center justify-center
-            select-none cursor-pointer text-gray-500 hover:text-indigo-700
-            active:text-red-500 dark:hover:text-indigo-400
+            select-none cursor-pointer text-gray-500 hover:text-orange-800
+            active:text-red-500 dark:hover:text-orange-300
             dark:active:text-red-500">
                 <i class="material-icons">menu</i>
             </div>
 
             <div class="font-bold text-2xl cursor-pointer
-            select-none text-indigo-600 dark:text-yellow-300">Toca Do Disco</div>
+            select-none">Toca Do Disco</div>
             <div id="menu" class="fixed top-14 left-0 w-full z-10 hidden
             flex-col p-8 gap-y-2 text-lg font-bold bg-gray-200
             dark:bg-gray-900">
-                <div class="p-2 cursor-pointer select-none hover:text-indigo-700
-                dark:hover:text-indigo-300">Página Inicial</div>
-                <div class="p-2 cursor-pointer select-none hover:text-indigo-700
-                dark:hover:text-indigo-300">Login</div>
-                <div class="p-2 cursor-pointer select-none hover:text-indigo-700
-                dark:hover:text-indigo-300">Cadastro</div>
+                <div class="p-2 cursor-pointer select-none hover:text-orange-800
+                dark:hover:text-orange-300">Página Inicial</div>
+                <div class="p-2 cursor-pointer select-none hover:text-orange-800
+                dark:hover:text-orange-300">Login</div>
+                <div class="p-2 cursor-pointer select-none hover:text-orange-800
+                dark:hover:text-orange-300">Cadastro</div>
             </div>
         </div>
         <div class="flex flex-row gap-x-2">
@@ -127,12 +155,12 @@
              alt="Descrição da Imagem" 
              class="w-full h-64 object-cover">
     </div>
+
     <div class="w-full p-4 flex justify-center items-center gap-4 bg-indigo-300 dark:bg-gray-800">
-        <label for="genreFilter" class="text-indigo-800 dark:text-yellow-300">Filter by Genre:</label>
-        <select id="genreFilter" class="rounded p-2 bg-white dark:bg-gray-700 text-indigo-900 dark:text-yellow-200">
-            <!-- Options will be added programmatically -->
-        </select>
+        <label for="generoFiltro" class="text-indigo-800 dark:text-yellow-300">Filtrar por gênero:</label>
+        <select id="generoFiltro" onchange="filterDiscos()" class="p-2 bg-gray-200 rounded-lg"></select>
     </div>
+    
     <div class="flex-col p-8">
         <div id="produtos-container" class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         </div>

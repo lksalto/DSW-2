@@ -4,55 +4,55 @@
     "artista": "The Beatles",
     "preco": 199.90,
     "imagem": "images/albuns/abbey_road.jpg",
-    "genre": "rock"
+    "genero": "rock"
   },
   {
     "nome": "Acabou Chorare",
     "artista": "Novos Baianos",
     "preco": 179.90,
     "imagem": "images/albuns/novos_baianos.jpg",
-    "genre": "mpb"
+    "genero": "mpb"
   },
   {
     "nome": "Back In Black",
     "artista": "AC/DC",
     "preco": 159.90,
     "imagem": "images/albuns/acdc.jpeg",
-    "genre": "rock"
+    "genero": "rock"
   },
   {
     "nome": "Thriller",
     "artista": "Michael Jackson",
     "preco": 189.90,
     "imagem": "images/albuns/thriller.jpeg",
-    "genre": "pop"
+    "genero": "pop"
   },
   {
     "nome": "A Voz do Samba",
     "artista": "Alcione",
     "preco": 209.90,
     "imagem": "images/albuns/alcione.jpeg",
-    "genre": "samba"
+    "genero": "samba"
   },
   {
     "nome": "The Wall",
     "artista": "Pink Floyd",
     "preco": 159.90,
     "imagem": "images/albuns/wall.jpeg",
-    "genre": "rock"
+    "genero": "rock"
   },
   {
     "nome": "Luz das Estrelas 1994",
     "artista": "Elis Regina",
     "preco": 179.90,
     "imagem": "images/albuns/elis.jpeg",
-    "genre": "mpb"
+    "genero": "mpb"
   },
   {
     "nome": "Purple Rain",
     "artista": "Prince",
     "preco": 169.90,
     "imagem": "images/albuns/purple_rain.jpeg",
-    "genre": "pop"
+    "genero": "pop"
   }
 ]
