@@ -3,31 +3,38 @@
 
 <head>
     <meta charset='utf-8'>
-    <title>Laboratório</title>
+    <title>TocaDoDisco</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link href="tailwindOutput.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <script>
-        let cartCount = 0;
-        let discosData = [];
-        let cartItems = [];
+        let contador_carrinho = 0;
+        let discos_data = [];
+        let itens_carrinho = [];
 
-        // Load discs from the JSON file
+        /*
+            Faz o carregamento dos discos para a página
+            tanto inicial quando filtrada por genero musical
+        */
         function loadDiscos() {
             fetch('discos.json')
                 .then(response => response.json())
                 .then(discos => {
-                    discosData = discos; // Save data for filtering
-                    populateGeneros(discos); // Populate genres dropdown
-                    displayDiscos(discos); // Show all discos initially
+                    discos_data = discos;
+                    generosDisponiveis(discos);
+                    exibeDiscos(discos);
                 });
         }
 
-        // Display discos in the container
-        function displayDiscos(discos) {
-            const produtosContainer = document.getElementById('produtos-container');
-            produtosContainer.innerHTML = ''; // Clear existing products
+        /*
+            Função responsável por exibir discos:
+            Ela basicamente constrói o html necessário para cada produto
+            e os coloca no div correto
+        */
+        function exibeDiscos(discos) {
+            const produtos = document.getElementById('localProdutos');
+            produtos.innerHTML = '';
 
             discos.forEach(disco => {
                 const preco = parseFloat(disco.preco);
@@ -35,34 +42,31 @@
                 const produtoElement = document.createElement('div');
                 produtoElement.classList.add('bg-gray-100', 'dark:bg-gray-800', 'rounded-lg', 'shadow-lg', 'flex', 'flex-col', 'items-center', 'p-4', 'relative');
 
-                // Tooltip element
-                const tooltipElement = document.createElement('div');
-                tooltipElement.classList.add('absolute', 'bottom-16', 'left-0', 'bg-gray-800', 'text-white', 'rounded-md', 'p-2', 'text-xs', 'hidden');
-                tooltipElement.innerHTML = `
-                    <p><strong>Nome:</strong> ${disco.nome}</p>
-                    <p><strong>Artista:</strong> ${disco.artista}</p>
-                    <p><strong>Preço:</strong> R$ ${preco.toFixed(2)}</p>
-                    <p><strong>Gênero:</strong> ${disco.genero}</p>
-                `;
-
-                // Add tooltip to product element
-                produtoElement.appendChild(tooltipElement);
-
-                produtoElement.innerHTML += `
-                    <img src="${disco.imagem}" alt="${disco.nome}" class="w-full h-40 object-cover rounded-t-lg" onmouseover="showTooltip(event)" onmouseout="hideTooltip(event)">
+                produtoElement.innerHTML = `
+                    <div class="relative w-full h-40 rounded-t-lg overflow-hidden group">
+                        <img src="${disco.imagem}" alt="${disco.nome}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p><strong>Nome:</strong> ${disco.nome}</p>
+                            <p><strong>Artista:</strong> ${disco.artista}</p>
+                        </div>
+                    </div>
                     <h3 class="mt-4 text-lg font-bold text-gray-800 dark:text-white">${disco.nome}</h3>
                     <p class="text-green-600 dark:text-green-400 font-semibold mt-2">R$ ${preco.toFixed(2)}</p>
-                    <button onclick="addToCart(${disco.id}, '${disco.nome}', '${disco.imagem}', ${preco})" class="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
+                    <button onclick="addToCart(${disco.id}, '${disco.nome}', '${disco.imagem}', ${preco})" 
+                        class="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
                         Adicionar ao Carrinho
                     </button>
                 `;
 
-                produtosContainer.appendChild(produtoElement);
+                produtos.appendChild(produtoElement);
             });
         }
 
-        // Populate genres dropdown
-        function populateGeneros(discos) {
+        /*
+            Busca no os generos que estão disponiveis de acordo com o json
+            e cria a estrutura apenas com os generos existentes
+        */
+        function generosDisponiveis(discos) {
             const generoFiltro = document.getElementById('generoFiltro');
             const generos = new Set();
 
@@ -78,19 +82,18 @@
             });
         }
 
-        // Filter discs by genre
-        function filterByGenero(genero) {
-            const filteredDiscos = genero === 'all' ? discosData : discosData.filter(disco => disco.genero === genero);
-            displayDiscos(filteredDiscos);
+        // Pega os discos de um determinado genero
+        function filtraGenero(genero) {
+            const discos = genero === 'all' ? discos_data : discos_data.filter(disco => disco.genero === genero);
+            exibeDiscos(discos);
         }
 
-        // Trigger filtering when the genre dropdown changes
-        function filterDiscos() {
+        //Função que inicia a filtragem pegando o nome do genero que será buscado
+        function filtraDiscos() {
             const generoFiltro = document.getElementById('generoFiltro').value;
-            filterByGenero(generoFiltro);
+            filtraGenero(generoFiltro);
         }
 
-        // Toggle the visibility of the menu
         function toggleMenu() {
             var x = document.getElementById("menu");
             if (x.style.display === "none" || x.style.display === "") {
@@ -100,7 +103,6 @@
             }
         }
 
-        // Toggle the visibility of the cart menu
         function toggleCartMenu() {
             var x = document.getElementById("cart-menu");
             if (x.style.display === "none" || x.style.display === "") {
@@ -110,7 +112,6 @@
             }
         }
 
-        // Toggle dark mode
         function toggleDarkMode() {
             const htmlElement = document.documentElement;
             if (htmlElement.classList.contains('dark')) {
@@ -120,25 +121,25 @@
             }
         }
 
-        // Add an item to the shopping cart
+        // Add ao carrinho de compras
         function addToCart(id, nome, imagem, preco) {
-            cartCount++;
-            document.getElementById("cart-count").textContent = cartCount;
-
-            // Add the item to the cartItems array
-            cartItems.push({ id, nome, imagem, preco });
+            contador_carrinho++;
+            document.getElementById("cart-count").textContent = contador_carrinho;
+            itens_carrinho.push({ id, nome, imagem, preco });
             updateCartMenu();
         }
 
-        // Update the cart menu with items
+        /*
+            Atualiza o carrinho de compras conforme vão sendo adicionados
+            Assim como exibeDiscos() a função gera o html necessário
+        */
         function updateCartMenu() {
             const cartMenu = document.getElementById("cart-menu");
-            cartMenu.innerHTML = ''; // Clear existing cart items
+            cartMenu.innerHTML = '';
 
-            if (cartItems.length === 0) {
-                cartMenu.innerHTML = '<p class="p-4 text-center">Carrinho vazio</p>';
+            if (itens_carrinho.length === 0) {
             } else {
-                cartItems.forEach(item => {
+                itens_carrinho.forEach(item => {
                     const cartItemElement = document.createElement('div');
                     cartItemElement.classList.add('flex', 'p-4', 'border-b', 'border-gray-300', 'dark:border-gray-700');
 
@@ -152,27 +153,47 @@
 
                     cartMenu.appendChild(cartItemElement);
                 });
+
+                const finalizeButton = document.createElement('button');
+                finalizeButton.classList.add('w-full', 'bg-green-500', 'hover:bg-green-600', 'text-white', 'font-bold', 'py-1', 'px-2', 'mt-4');
+                finalizeButton.textContent = 'Comprar';
+                finalizeButton.onclick = finalizarCompra;
+
+                cartMenu.appendChild(finalizeButton);
             }
         }
 
-        // Show tooltip on hover
+        function finalizarCompra() {
+            itens_carrinho = []; 
+            contador_carrinho = 0;
+            document.getElementById("cart-count").textContent = contador_carrinho;
+            updateCartMenu();
+            window.location.href = "index.html"
+        }
+
+        // Apresenta o tooltip quando colocado o mouse em cima
         function showTooltip(event) {
             const tooltip = event.target.closest('div').querySelector('.absolute');
             tooltip.classList.remove('hidden');
         }
 
-        // Hide tooltip when not hovering
+        // Some o tooltip quando retirado o mouse de cima
         function hideTooltip(event) {
             const tooltip = event.target.closest('div').querySelector('.absolute');
             tooltip.classList.add('hidden');
         }
 
-        // Initialize the page by loading discs
         window.onload = loadDiscos;
+        
     </script>
 </head>
 
+
 <body class="w-full flex flex-col font-mono bg-indigo-100 dark:bg-gray-900 dark:text-white">
+   
+    <!-- Flexbox pareceu ser o melhor para usar, tentou-se utilizar o grid
+        para posicionar os produtos, mas o flex pareceu mais consistente e 
+        evitou algumas sobreposições -->
 
     <div class="fixed top-0 left-0 w-full h-14 p-4 flex flex-row justify-between
     bg-indigo-200 border-b border-b-gray-300 dark:bg-gray-900
@@ -225,18 +246,23 @@
 
     <div class="w-full p-4 flex justify-center items-center gap-4 bg-indigo-300 dark:bg-gray-800">
         <label for="generoFiltro" class="text-indigo-800 dark:text-yellow-300">Filtrar por gênero:</label>
-        <select id="generoFiltro" onchange="filterDiscos()" class="p-2 bg-gray-200 dark:bg-gray-600 rounded-lg"></select>
+        <select id="generoFiltro" onchange="filtraDiscos()" class="p-2 bg-gray-200 dark:bg-gray-600 rounded-lg"></select>
     </div>
     
     <div class="flex-col p-8">
-        <div id="produtos-container" class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div id="localProdutos" class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"> 
+            <!-- Nessa div que os produtos que estão tendo seus htmls gerado pela função são colocados-->
         </div>
     </div>
 
-    <!-- Cart Menu -->
     <div id="cart-menu" class="fixed top-14 right-0 w-64 bg-white dark:bg-gray-800 shadow-lg z-20 hidden flex-col">
-        <!-- Cart items will be dynamically added here -->
     </div>
+
+    <div class="w-full p-8 bg-gray-900 text-white dark:bg-indigo-300 dark:text-black text-center flex flex-col">
+        <p class="text-sm">A Toca do Disco é o lugar perfeito para os amantes da música e os colecionistas de plantão. Explore nossa seleção. Aqui as histórias são contadas em giros.</p>
+        <p class="text-xs mt-4">© 2024 Toca do Disco. Todos os direitos reservados.</p>
+    </div>
+    
 </body>
 
 </html>
