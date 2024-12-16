@@ -1,6 +1,6 @@
 ## Trabalho 1 - DS2
 
-Requisitos R!, R2, R3
+Requisitos R1, R2, R3
 
 * Antonio Maldonado - 790038
 * Leandro Keller Salto - 791014
