@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html class="">
+<head>
+    <meta charset='utf-8'>
+    <title>Carrinho</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="tailwindOutput.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="w-full flex flex-col font-mono bg-indigo-100 dark:bg-gray-900 dark:text-white">
+    <!-- Cabeçalho -->
+    <div class="fixed top-0 left-0 w-full h-14 p-4 flex flex-row justify-between bg-indigo-200 border-b border-b-gray-300 dark:bg-gray-900 dark:border-b-gray-800 z-10">
+        <div class="font-bold text-2xl cursor-pointer select-none text-indigo-600 dark:text-yellow-300">Toca Do Disco</div>
+        <div class="flex flex-row gap-x-2">
+            <a href="carrinho.html" class="flex items-center cursor-pointer select-none text-black hover:text-yellow-500 dark:text-white">
+                <i class="material-icons">shopping_cart</i>
+                <span id="cart-count" class="ml-2 text-sm text-red-500">0</span>
+            </a>
+            <div onclick="toggleDarkMode()" class="select-none cursor-pointer text-black hover:text-yellow-500 dark:text-white">
+                <div class="text-xs dark:hidden">
+                    <i class="material-icons">nightlight</i>
+                </div>
+                <div class="text-xs hidden dark:block">
+                    <i class="material-icons">lightbulb</i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteúdo do Carrinho -->
+    <div class="mt-16 p-8">
+        <h1 class="text-2xl font-bold text-indigo-800 dark:text-yellow-300 mb-4">Carrinho de Compras</h1>
+        <div id="cart-items" class="grid grid-cols-1 gap-4">
+            <!-- Itens do carrinho serão carregados aqui -->
+        </div>
+        <div class="mt-8">
+            <button onclick="finalizarCompra()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">
+                Finalizar Compra
+            </button>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <div class="w-full p-8 bg-gray-900 text-white dark:bg-indigo-300 dark:text-black text-center flex flex-col">
+        <p class="text-sm">A Toca do Disco é o lugar perfeito para os amantes da música e os colecionadores de plantão. Explore nossa seleção. Aqui as histórias são contadas em giros.</p>
+        <p class="text-xs mt-4">© 2024 Toca do Disco. Todos os direitos reservados.</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="scripts/carrinho.js"></script>
+</body>
+</html>

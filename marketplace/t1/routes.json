@@ -1,0 +1,5 @@
+{
+    "/api/usuarios": "/usuarios",
+    "/api/discos": "/discos",
+    "/api/carrinho": "/carrinho"
+  }

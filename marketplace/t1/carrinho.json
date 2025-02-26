@@ -1,0 +1,17 @@
+[
+    {
+      "id": 1,
+      "usuario_id": 1,
+      "valor_total": 300.00,
+      "itens": [
+        {
+          "disco_id": 1,
+          "quantidade": 1
+        },
+        {
+          "disco_id": 2,
+          "quantidade": 1
+        }
+      ]
+    }
+  ]

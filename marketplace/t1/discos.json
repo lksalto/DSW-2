@@ -1,5 +1,6 @@
 [
   {
+    "id":1,
     "nome": "Abbey Road",
     "artista": "The Beatles",
     "preco": 199.90,
@@ -7,6 +8,7 @@
     "genero": "rock"
   },
   {
+    "id":2,
     "nome": "Acabou Chorare",
     "artista": "Novos Baianos",
     "preco": 179.90,
@@ -14,6 +16,7 @@
     "genero": "mpb"
   },
   {
+    "id":3,
     "nome": "Back In Black",
     "artista": "AC/DC",
     "preco": 159.90,
@@ -21,6 +24,7 @@
     "genero": "rock"
   },
   {
+    "id":4,
     "nome": "Thriller",
     "artista": "Michael Jackson",
     "preco": 189.90,
@@ -28,6 +32,7 @@
     "genero": "pop"
   },
   {
+    "id":5,
     "nome": "A Voz do Samba",
     "artista": "Alcione",
     "preco": 209.90,
@@ -35,6 +40,7 @@
     "genero": "samba"
   },
   {
+    "id":6,
     "nome": "The Wall",
     "artista": "Pink Floyd",
     "preco": 159.90,
@@ -42,6 +48,7 @@
     "genero": "rock"
   },
   {
+    "id":7,
     "nome": "Luz das Estrelas 1994",
     "artista": "Elis Regina",
     "preco": 179.90,
@@ -49,6 +56,7 @@
     "genero": "mpb"
   },
   {
+    "id":8,
     "nome": "Purple Rain",
     "artista": "Prince",
     "preco": 169.90,

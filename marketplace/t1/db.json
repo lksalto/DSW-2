@@ -1,0 +1,105 @@
+{
+  "usuarios": [
+    {
+      "id": 1,
+      "nome": "Usuário 1",
+      "email": "login",
+      "senha": "senha"
+    },
+    {
+      "id": 2,
+      "nome": "Usuário 2",
+      "email": "usuario2@example.com",
+      "senha": "senha456"
+    },
+    {
+      "nome": "teste",
+      "email": "teste@teste.com",
+      "senha": "teste",
+      "id": 3
+    },
+    {
+      "nome": "teste2",
+      "email": "teste2",
+      "senha": "teste2",
+      "id": 4
+    }
+  ],
+  "discos": [
+    {
+      "id": 1,
+      "nome": "Abbey Road",
+      "artista": "The Beatles",
+      "preco": 199.9,
+      "imagem": "images/albuns/abbey_road.jpg",
+      "genero": "rock"
+    },
+    {
+      "id": 2,
+      "nome": "Acabou Chorare",
+      "artista": "Novos Baianos",
+      "preco": 179.9,
+      "imagem": "images/albuns/novos_baianos.jpg",
+      "genero": "mpb"
+    },
+    {
+      "id": 3,
+      "nome": "Back In Black",
+      "artista": "AC/DC",
+      "preco": 159.9,
+      "imagem": "images/albuns/acdc.jpeg",
+      "genero": "rock"
+    },
+    {
+      "id": 4,
+      "nome": "Thriller",
+      "artista": "Michael Jackson",
+      "preco": 189.9,
+      "imagem": "images/albuns/thriller.jpeg",
+      "genero": "pop"
+    },
+    {
+      "id": 5,
+      "nome": "A Voz do Samba",
+      "artista": "Alcione",
+      "preco": 209.9,
+      "imagem": "images/albuns/alcione.jpeg",
+      "genero": "samba"
+    },
+    {
+      "id": 6,
+      "nome": "The Wall",
+      "artista": "Pink Floyd",
+      "preco": 159.9,
+      "imagem": "images/albuns/wall.jpeg",
+      "genero": "rock"
+    },
+    {
+      "id": 7,
+      "nome": "Luz das Estrelas 1994",
+      "artista": "Elis Regina",
+      "preco": 179.9,
+      "imagem": "images/albuns/elis.jpeg",
+      "genero": "mpb"
+    },
+    {
+      "id": 8,
+      "nome": "Purple Rain",
+      "artista": "Prince",
+      "preco": 169.9,
+      "imagem": "images/albuns/purple_rain.jpeg",
+      "genero": "pop"
+    },
+    {
+      "id": 9,
+      "nome": "Black Album",
+      "artista": "Metallica",
+      "preco": 110.9,
+      "imagem": "images/albuns/black_album.jpg",
+      "genero": "rock"
+    }
+  ],
+  "carrinho": [
+    
+  ]
+}
