@@ -3,20 +3,47 @@
 import { useState, type FormEvent } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Mail, Key, Moon, Sun } from "lucide-react"
 
 export default function LoginPage() {
   const [darkMode, setDarkMode] = useState(false)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+  const router = useRouter()
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode)
     document.documentElement.classList.toggle("dark")
   }
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault()
-    // Handle login logic here
-  }
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+  
+    const user = { email, password };
+  
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        alert("Login bem-sucedido!");
+        // Aqui você pode redirecionar ou armazenar o usuário no estado global
+      } else {
+        alert(data.error || "Erro ao fazer login.");
+      }
+    } catch (error) {
+      alert("Erro ao conectar com o servidor.");
+    }
+  };
+  
+  
 
   return (
     <div
@@ -42,15 +69,9 @@ export default function LoginPage() {
             md:w-fit md:h-fit md:p-12 md:rounded-2xl"
         >
           <div className="text-center flex flex-col items-center gap-y-4 p-4">
-            {darkMode ? (
-              <div className="w-24 h-24 relative">
-                <Image src="/logoDark.png" alt="Logo Dark" fill className="object-contain" />
-              </div>
-            ) : (
-              <div className="w-24 h-24 relative">
-                <Image src="/logo.png" alt="Logo" fill className="object-contain" />
-              </div>
-            )}
+            <div className="w-24 h-24 relative">
+              <Image src={darkMode ? "/logoDark.png" : "/logo.png"} alt="Logo" fill className="object-contain" />
+            </div>
             <div className="text-xl font-bold text-indigo-800 dark:text-yellow-300">Histórias em cada giro</div>
           </div>
 
@@ -59,6 +80,8 @@ export default function LoginPage() {
             <div className="w-full relative flex justify-end items-center md:w-80">
               <input
                 placeholder="E-mail"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full text-xl rounded p-2 outline-0 bg-indigo-200 text-indigo-900
                   placeholder:text-indigo-700 focus:bg-indigo-300
                   dark:bg-gray-700 dark:text-yellow-200
@@ -73,6 +96,8 @@ export default function LoginPage() {
               <input
                 type="password"
                 placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full text-xl rounded p-2 outline-0 bg-indigo-200 text-indigo-900
                   placeholder:text-indigo-700 focus:bg-indigo-300
                   dark:bg-gray-700 dark:text-yellow-200
@@ -81,6 +106,9 @@ export default function LoginPage() {
               />
               <Key className="text-gray-500 dark:text-yellow-400 absolute mr-2" size={24} />
             </div>
+
+            {/* Error message */}
+            {error && <p className="text-red-500">{error}</p>}
 
             {/* Login button */}
             <button
